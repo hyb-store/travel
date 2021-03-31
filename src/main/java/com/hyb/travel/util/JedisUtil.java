@@ -42,6 +42,7 @@ public final class JedisUtil {
      */
     public static Jedis getJedis() {
         return jedisPool.getResource();
+
     }
 
     /**

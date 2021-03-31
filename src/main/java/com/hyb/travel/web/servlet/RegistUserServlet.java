@@ -5,6 +5,7 @@ import com.hyb.travel.domain.ResultInfo;
 import com.hyb.travel.domain.User;
 import com.hyb.travel.service.UserService;
 import com.hyb.travel.service.impl.UserServiceImpl;
+import com.hyb.travel.util.MailUtils;
 import org.apache.commons.beanutils.BeanUtils;
 
 import javax.servlet.ServletException;
@@ -20,7 +21,6 @@ import java.util.Map;
 @WebServlet("/registUserServlet")
 public class RegistUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         //验证校验
         String check = request.getParameter("check");
         //从sesion中获取验证码

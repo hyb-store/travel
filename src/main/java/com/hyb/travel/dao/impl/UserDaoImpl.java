@@ -3,7 +3,6 @@ package com.hyb.travel.dao.impl;
 import com.hyb.travel.dao.UserDao;
 import com.hyb.travel.domain.User;
 import com.hyb.travel.util.JDBCUtils;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
