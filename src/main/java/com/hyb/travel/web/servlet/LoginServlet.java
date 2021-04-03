@@ -19,7 +19,7 @@ import java.util.Map;
 @WebServlet("/loginServlet")
 public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-         //1.获取用户名和密码数据
+        //1.获取用户名和密码数据
         Map<String, String[]> map = request.getParameterMap();
         //2.封装User对象
         User user = new User();
@@ -36,6 +36,8 @@ public class LoginServlet extends HttpServlet {
         User u = service.login(user);
 
         ResultInfo info = new ResultInfo();
+
+        //System.out.println(u.toString());
 
         //4.判断用户对象是否为null
         if(u == null) {
@@ -54,6 +56,7 @@ public class LoginServlet extends HttpServlet {
         //6.判断是否登陆成功
         if(u != null && "Y".equals(u.getStatus())) {
             //登陆成功
+            request.getSession().setAttribute("user",u);//登录成功标记
             info.setFlag(true);
         }
 
