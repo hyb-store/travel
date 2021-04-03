@@ -12,4 +12,5 @@ public interface UserService {
 
     Boolean active(String code);
 
+    User login(User user);
 }
