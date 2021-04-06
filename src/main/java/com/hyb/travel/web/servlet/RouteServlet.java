@@ -34,6 +34,7 @@ public class RouteServlet extends BaseServlet {
         if(cidStr != null && cidStr.length() > 0){
             cid = Integer.parseInt(cidStr);
         }
+
         int currentPage = 0;//当前页码，如果不传递，则默认为第一页
         if(currentPageStr != null && currentPageStr.length() > 0){
             currentPage = Integer.parseInt(currentPageStr);

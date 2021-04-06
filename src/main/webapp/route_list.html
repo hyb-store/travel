@@ -64,7 +64,6 @@
                     2.如果前边不够5个，后边补齐10个
                     3.如果后边不足4个，前边补齐10个
                 */
-
                 // 定义开始位置begin,结束位置 end
                 var begin; // 开始位置
                 var end ; //  结束位置
@@ -118,8 +117,14 @@
                      //拼接字符串
                      lis += li;
                  }*/
-                var lastPage = '<li class="threeword"><a href="javascript:;">末页</a></li>';
-                var nextPage = '<li class="threeword"><a href="javascript:;">下一页</a></li>';
+
+                //计算下一页的页码
+                var nextNum =  pb.currentPage + 1;
+                if(nextNum > pb.totalPage){
+                    nextNum = pb.totalPage;
+                }
+                var lastPage = '<li onclick="javascript:load('+cid+','+pb.totalPage+')" class="threeword"><a href="javascript:void(0);">末页</a></li>';
+                var nextPage = '<li onclick="javascript:load('+cid+','+nextNum+')" class="threeword"><a href="javascript:void(0);">下一页</a></li>';
 
                 lis += nextPage;
                 lis += lastPage;
@@ -173,7 +178,7 @@
                 $("#route").html(route_lis);
 
                 //定位到页面顶部
-                window.scrollTo(0,0);
+                window.scrollTo(0,300);
             });
         }
     </script>
