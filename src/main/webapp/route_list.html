@@ -33,6 +33,7 @@
         });
 
         function load(cid ,currentPage,rname){
+
             //发送ajax请求，请求route/pageQuery,传递cid
             $.get("route/pageQuery",{cid:cid,currentPage:currentPage,rname:rname},function (pb) {
                 //解析pagebean数据，展示到页面上

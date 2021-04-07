@@ -57,8 +57,8 @@ public class RouteServlet extends BaseServlet {
         }
 
         //3. 调用service查询PageBean对象
+//        System.out.println("cid:"+cid+" "+"currentPage:"+currentPage+" "+"pageSize:"+pageSize+" "+ "rname:"+rname);
         PageBean<Route> pb = routeService.pageQuery(cid, currentPage, pageSize, rname);
-
         //4. 将pageBean对象序列化为json，返回
         writeValue(pb,response);
     }
