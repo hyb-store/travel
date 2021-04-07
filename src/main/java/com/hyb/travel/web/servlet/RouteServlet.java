@@ -29,9 +29,16 @@ public class RouteServlet extends BaseServlet {
         String pageSizeStr = request.getParameter("pageSize");
         String cidStr = request.getParameter("cid");
 
+        //接受rname线路名称
+        String rname = request.getParameter("rname");
+
+        //解决tomcat7乱码问题
+        // 1.pom中配置<uriEncoding>UTF-8</uriEncoding>
+        // 2.rname = new String(rname.getBytes("iso-8859-1"),"utf-8");
+
         //2.处理参数
         int cid = 0;//类别id
-        if(cidStr != null && cidStr.length() > 0){
+        if(cidStr != null && cidStr.length() > 0 && !"null".equals(cidStr)){
             cid = Integer.parseInt(cidStr);
         }
 
@@ -50,7 +57,7 @@ public class RouteServlet extends BaseServlet {
         }
 
         //3. 调用service查询PageBean对象
-        PageBean<Route> pb = routeService.pageQuery(cid, currentPage, pageSize);
+        PageBean<Route> pb = routeService.pageQuery(cid, currentPage, pageSize, rname);
 
         //4. 将pageBean对象序列化为json，返回
         writeValue(pb,response);
