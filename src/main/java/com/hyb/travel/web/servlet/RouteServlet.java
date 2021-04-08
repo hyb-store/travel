@@ -2,7 +2,10 @@ package com.hyb.travel.web.servlet;
 
 import com.hyb.travel.domain.PageBean;
 import com.hyb.travel.domain.Route;
+import com.hyb.travel.domain.User;
+import com.hyb.travel.service.FavoriteService;
 import com.hyb.travel.service.RouteService;
+import com.hyb.travel.service.impl.FavoriteServiceImpl;
 import com.hyb.travel.service.impl.RouteServiceImpl;
 
 import javax.servlet.ServletException;
@@ -16,6 +19,8 @@ import java.io.IOException;
 public class RouteServlet extends BaseServlet {
 
     private RouteService routeService = new RouteServiceImpl();
+    private FavoriteService favoriteService = new FavoriteServiceImpl();
+
     /**
      * 分页查询
      * @param request
@@ -77,5 +82,60 @@ public class RouteServlet extends BaseServlet {
         Route route = routeService.findOne(rid);
         //3.转为json写会客户端
         writeValue(route,response);
+    }
+
+    /**
+     * 判断登录用户是否收藏过该线路
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void isFavorite(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //1. 获取线路rid
+        String rid = request.getParameter("rid");
+        //2. 获取当前登录的用户
+        User user = (User) request.getSession().getAttribute("user");
+        int uid;//用户id
+        if(user == null){
+            //用户尚未登录
+            uid = 0;
+        }else{
+            //用户已经登录
+            uid = user.getUid();
+        }
+
+        //3. 调用service查询是否收藏
+       boolean flag =  favoriteService.isFavorite(rid,uid);
+
+        //4.写会客户端
+        writeValue(flag,response);
+    }
+
+    /**
+     * 添加收藏
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void addFavorite(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //1. 获取线路rid
+        String rid = request.getParameter("rid");
+        //2. 获取当前登录的用户
+        User user = (User) request.getSession().getAttribute("user");
+        int uid;//用户id
+        if(user == null){
+            //用户尚未登录
+            return ;
+        }else{
+            //用户已经登录
+            uid = user.getUid();
+        }
+
+
+        //3. 调用service添加
+        favoriteService.add(rid,uid);
+
     }
 }

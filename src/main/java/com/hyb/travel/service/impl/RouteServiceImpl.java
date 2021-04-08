@@ -1,8 +1,10 @@
 package com.hyb.travel.service.impl;
 
+import com.hyb.travel.dao.FavoriteDao;
 import com.hyb.travel.dao.RouteDao;
 import com.hyb.travel.dao.RouteImgDao;
 import com.hyb.travel.dao.SellerDao;
+import com.hyb.travel.dao.impl.FavoriteDaoImpl;
 import com.hyb.travel.dao.impl.RouteDaoImpl;
 import com.hyb.travel.dao.impl.RouteImgDaoImpl;
 import com.hyb.travel.dao.impl.SellerDaoImpl;
@@ -19,6 +21,7 @@ public class RouteServiceImpl implements RouteService {
     private RouteDao routeDao = new RouteDaoImpl();
     private RouteImgDao routeImgDao = new RouteImgDaoImpl();
     private SellerDao sellerDao = new SellerDaoImpl();
+    private FavoriteDao favoriteDao = new FavoriteDaoImpl();
 
     @Override
     public PageBean<Route> pageQuery(int cid, int currentPage, int pageSize, String rname) {
@@ -57,6 +60,10 @@ public class RouteServiceImpl implements RouteService {
         //3.根据route的sid（商家id）查询商家对象
         Seller seller = sellerDao.findById(route.getSid());
         route.setSeller(seller);
+
+        //4.查询收藏次数
+        int count = favoriteDao.findCountByRid(route.getRid());
+        route.setCount(count);
 
         return route;
     }
