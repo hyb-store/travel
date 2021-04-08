@@ -1,9 +1,15 @@
 package com.hyb.travel.service.impl;
 
 import com.hyb.travel.dao.RouteDao;
+import com.hyb.travel.dao.RouteImgDao;
+import com.hyb.travel.dao.SellerDao;
 import com.hyb.travel.dao.impl.RouteDaoImpl;
+import com.hyb.travel.dao.impl.RouteImgDaoImpl;
+import com.hyb.travel.dao.impl.SellerDaoImpl;
 import com.hyb.travel.domain.PageBean;
 import com.hyb.travel.domain.Route;
+import com.hyb.travel.domain.RouteImg;
+import com.hyb.travel.domain.Seller;
 import com.hyb.travel.service.RouteService;
 
 import java.util.List;
@@ -11,6 +17,8 @@ import java.util.List;
 public class RouteServiceImpl implements RouteService {
 
     private RouteDao routeDao = new RouteDaoImpl();
+    private RouteImgDao routeImgDao = new RouteImgDaoImpl();
+    private SellerDao sellerDao = new SellerDaoImpl();
 
     @Override
     public PageBean<Route> pageQuery(int cid, int currentPage, int pageSize, String rname) {
@@ -34,5 +42,22 @@ public class RouteServiceImpl implements RouteService {
         pb.setTotalPage(totalPage);
 
         return pb;
+    }
+
+    @Override
+    public Route findOne(String rid) {
+        //1.根据id去route表中查询route对象
+        Route route = routeDao.findOne(Integer.parseInt(rid));
+
+        //2.1根据route的id查询图片集合信息
+        List<RouteImg> routeImgList = routeImgDao.findById(route.getRid());
+        //2.2讲集合设置到route对象
+        route.setRouteImgList(routeImgList);
+
+        //3.根据route的sid（商家id）查询商家对象
+        Seller seller = sellerDao.findById(route.getSid());
+        route.setSeller(seller);
+
+        return route;
     }
 }
